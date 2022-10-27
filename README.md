@@ -1,6 +1,6 @@
 # nPaper
 <p align="center">
-A fork of Paper 1.7 with changes (optimizations & features).
+A fork of Paper 1.7 with changes (optimizations & 1.8 API & features).
   <br>
   <a href="https://app.travis-ci.com/github/sathonay/nPaper">
     <img src="https://img.shields.io/travis/com/sathonay/nPaper?style=flat-square&logo=travis&label=TravisCI">
