@@ -358,4 +358,9 @@ public class PaperSpigotWorldConfig
 	private void fixArrowVelocity() {
 		fixArrowVelocity = getBoolean("fix-arrow-velocity", fixArrowVelocity);
 	}
+	
+	public boolean allowMergingCreature = false;
+	private void allowMergingCreature() {
+		allowMergingCreature = getBoolean("allow-merging-creature", allowMergingCreature);
+	}
 }

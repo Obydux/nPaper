@@ -1,13 +1,12 @@
 package net.minecraft.server;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.bukkit.entity.Fish;
 // CraftBukkit start
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Fish;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.github.paperspigot.PaperSpigotConfig;
 // CraftBukkit end
@@ -474,17 +473,15 @@ public class EntityFishingHook extends Entity {
         f2 = MathHelper.a(f2, 0.0F, 1.0F);
         if (f < f1) {
             this.owner.a(StatisticList.A, 1);
-            return ((PossibleFishingResult) WeightedRandom.a(this.random, (Collection) d)).a(this.random);
+            return ((PossibleFishingResult) WeightedRandom.a(this.random, d)).a(this.random);
         } else {
             f -= f1;
             if (f < f2) {
                 this.owner.a(StatisticList.B, 1);
-                return ((PossibleFishingResult) WeightedRandom.a(this.random, (Collection) e)).a(this.random);
+                return ((PossibleFishingResult) WeightedRandom.a(this.random, e)).a(this.random);
             } else {
-                float f3 = f - f2;
-
                 this.owner.a(StatisticList.z, 1);
-                return ((PossibleFishingResult) WeightedRandom.a(this.random, (Collection) EntityFishingHook.f)).a(this.random); // CraftBukkit - fix static reference to fish list
+                return ((PossibleFishingResult) WeightedRandom.a(this.random, EntityFishingHook.f)).a(this.random); // CraftBukkit - fix static reference to fish list
             }
         }
     }

@@ -310,4 +310,27 @@ public abstract class EntityCreature extends EntityInsentient {
     }
 
     protected void o(float f) {}
+    
+    @Override
+    protected void o(Entity entity) {
+    	super.o(entity);
+    	if (!this.world.paperSpigotConfig.allowMergingCreature) {
+    		return;
+    	}
+    	if (!(entity instanceof EntityCreature)) {
+    		return;
+    	}
+    	if (this.getBukkitEntity().getType() != entity.getBukkitEntity().getType()) {
+    		return;
+    	}
+    	final EntityCreature creature = (EntityCreature) entity;
+    	if (this.stack >= creature.stack) {
+    		this.stack += creature.stack;
+    		this.setCustomName("x" + this.stack);
+    		if (!this.getCustomNameVisible() && this.hasCustomName()) {
+    			this.setCustomNameVisible(true);
+    		}
+    		creature.die();
+    	}
+    }
 }

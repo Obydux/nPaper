@@ -35,6 +35,7 @@ public abstract class EntityInsentient extends EntityLiving {
     private Entity bw;
     private NBTTagCompound bx;
     public PathfinderGoalFloat goalFloat; // PaperSpigot
+    public int stack = 1; // nPaper
 
     public EntityInsentient(World world) {
         super(world);
@@ -238,6 +239,7 @@ public abstract class EntityInsentient extends EntityLiving {
 
             nbttagcompound.set("Leash", nbttagcompound1);
         }
+        nbttagcompound.setInt("Stack", this.stack);
     }
 
     public void a(NBTTagCompound nbttagcompound) {
@@ -283,6 +285,7 @@ public abstract class EntityInsentient extends EntityLiving {
         if (this.bv && nbttagcompound.hasKeyOfType("Leash", 10)) {
             this.bx = nbttagcompound.getCompound("Leash");
         }
+        this.stack = nbttagcompound.getInt("Stack");
     }
 
     public void n(float f) {
