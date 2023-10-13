@@ -324,7 +324,7 @@ public abstract class EntityCreature extends EntityInsentient {
     		return;
     	}
     	final EntityCreature creature = (EntityCreature) entity;
-    	if (this.stack >= creature.stack) {
+    	if (this.stack >= creature.stack && !creature.dead) {
     		this.stack += creature.stack;
     		this.setCustomName("x" + this.stack);
     		if (!this.getCustomNameVisible() && this.hasCustomName()) {
