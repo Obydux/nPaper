@@ -30,7 +30,7 @@ public class PacketPlayOutPlayerInfo extends Packet {
 
     public PacketPlayOutPlayerInfo(EntityPlayer player, PlayerInfo action) {
         this.action = action;
-        this.username = (player.playerConnection.networkManager.getVersion() < 28 ? ValidateUtils.limit(player.listName, 16) : player.listName); // Rinny - dont limit tablist name for 1.8 client
+        this.username = player.listName;
         this.player = player.getProfile();
         switch (action) {
             case ADD_PLAYER:
@@ -117,6 +117,11 @@ public class PacketPlayOutPlayerInfo extends Packet {
 
     public void handle(PacketListener packetlistener) {
         this.a((PacketPlayOutListener) packetlistener);
+    }
+    
+    public PacketPlayOutPlayerInfo fixUsername() { // Rinny - dont limit tablist name for 1.8 client
+    	this.username = ValidateUtils.limit(username, 16);
+    	return this;
     }
 
     public enum PlayerInfo {
