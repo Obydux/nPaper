@@ -119,9 +119,8 @@ public class PacketPlayOutPlayerInfo extends Packet {
         this.a((PacketPlayOutListener) packetlistener);
     }
     
-    public PacketPlayOutPlayerInfo fixUsername() { // Rinny - dont limit tablist name for 1.8 client
+    public void fixUsername() { // Rinny - dont limit tablist name for 1.8 client
     	this.username = ValidateUtils.limit(username, 16);
-    	return this;
     }
 
     public enum PlayerInfo {
