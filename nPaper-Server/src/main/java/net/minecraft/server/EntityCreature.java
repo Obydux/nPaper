@@ -323,7 +323,7 @@ public abstract class EntityCreature extends EntityInsentient {
     	if (this.getBukkitEntity().getType() != entity.getBukkitEntity().getType()) {
     		return;
     	}
-    	if (this.passenger != null) {
+    	if (this.passenger != null || entity.passenger != null) {
     		return;
     	}
     	final EntityCreature creature = (EntityCreature) entity;
