@@ -323,6 +323,9 @@ public abstract class EntityCreature extends EntityInsentient {
     	if (this.getBukkitEntity().getType() != entity.getBukkitEntity().getType()) {
     		return;
     	}
+    	if (this.passenger != null) {
+    		return;
+    	}
     	final EntityCreature creature = (EntityCreature) entity;
     	if (this.stack >= creature.stack && !creature.dead) {
     		this.stack += creature.stack;
