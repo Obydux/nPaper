@@ -313,8 +313,8 @@ public abstract class EntityCreature extends EntityInsentient {
     
     @Override
     protected void o(Entity entity) {
-    	super.o(entity);
     	if (!this.world.paperSpigotConfig.allowMergingCreature) {
+    		super.o(entity);
     		return;
     	}
     	if (!(entity instanceof EntityCreature)) {
