@@ -1,6 +1,7 @@
 package org.bukkit.craftbukkit;
 
 import java.io.File;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,6 +109,16 @@ public class CraftOfflinePlayer implements OfflinePlayer, ConfigurationSerializa
         } else {
             server.getBanList(BanList.Type.NAME).pardon(getName());
         }
+    }
+    
+    public void setBanned(String reason, Date expirement, String source) {
+    	if (this.getName() == null) {
+    		return;
+    	}
+    	if (isBanned()) {
+    		return;
+    	}
+        server.getBanList(BanList.Type.NAME).addBan(getName(), reason, expirement, source);
     }
 
     public boolean isWhitelisted() {

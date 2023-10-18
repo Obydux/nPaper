@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -955,6 +956,14 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
         } else {
             server.getBanList(BanList.Type.NAME).pardon(getName());
         }
+    }
+    
+    @Override
+    public void setBanned(String reason, Date expirement, String source) {
+    	if (isBanned()) {
+    		return;
+    	}
+        server.getBanList(BanList.Type.NAME).addBan(getName(), reason, expirement, source);
     }
 
     @Override
