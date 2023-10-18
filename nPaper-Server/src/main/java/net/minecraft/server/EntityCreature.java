@@ -313,17 +313,8 @@ public abstract class EntityCreature extends EntityInsentient {
     
     @Override
     protected void o(Entity entity) {
-    	if (!this.world.paperSpigotConfig.allowMergingCreature) {
+    	if (!this.world.paperSpigotConfig.allowMergingCreature || (!(entity instanceof EntityCreature)) || this.getBukkitEntity().getType() != entity.getBukkitEntity().getType() || (this.passenger != null || entity.passenger != null)) {
     		super.o(entity);
-    		return;
-    	}
-    	if (!(entity instanceof EntityCreature)) {
-    		return;
-    	}
-    	if (this.getBukkitEntity().getType() != entity.getBukkitEntity().getType()) {
-    		return;
-    	}
-    	if (this.passenger != null || entity.passenger != null) {
     		return;
     	}
     	final EntityCreature creature = (EntityCreature) entity;
