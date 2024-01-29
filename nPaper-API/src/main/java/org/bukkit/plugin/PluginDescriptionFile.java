@@ -21,6 +21,7 @@ import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.LoaderOptions;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -178,7 +179,7 @@ public final class PluginDescriptionFile {
     private static final ThreadLocal<Yaml> YAML = new ThreadLocal<Yaml>() {
         @Override
         protected Yaml initialValue() {
-            return new Yaml(new SafeConstructor() {
+            return new Yaml(new SafeConstructor(new LoaderOptions()) {
                 {
                     yamlConstructors.put(null, new AbstractConstruct() {
                         @Override
