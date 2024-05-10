@@ -272,4 +272,9 @@ public class PaperSpigotConfig
     private static void savePlayerData() {
         savePlayerData = getBoolean("settings.save-player-data", savePlayerData);
     }
+
+    public static boolean entityUseBypassPacketQueue = false;
+    private static void entityUseBypassPacketQueue() {
+        savePlayerData = getBoolean("settings.entity-use-bypass-packet-queue", entityUseBypassPacketQueue);
+    }
 }

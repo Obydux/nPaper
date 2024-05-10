@@ -99,6 +99,7 @@ public class EntityTracker {
 
             this.c.add(entitytrackerentry);
             this.trackedEntities.a(entity.getId(), entitytrackerentry);
+            entitytrackerentry.untrackQueuedPlayers();
             entitytrackerentry.scanPlayers(getPlayersToTrack(entity, i));
         } catch (Throwable throwable) {
             CrashReport crashreport = CrashReport.a(throwable, "Adding entity to track");

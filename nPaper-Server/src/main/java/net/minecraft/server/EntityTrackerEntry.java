@@ -1,10 +1,6 @@
 package net.minecraft.server;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,6 +37,7 @@ public class EntityTrackerEntry {
     public boolean n;
     public final Map<EntityPlayer, Boolean> trackedPlayerMap = new java.util.HashMap<EntityPlayer, Boolean>();
     public final Set<EntityPlayer> trackedPlayers = trackedPlayerMap.keySet();
+    public final Deque<EntityPlayer> untrackQueue = new LinkedList<>();
 
     public EntityTrackerEntry(Entity entity, int i, int j, boolean flag) {
         this.tracker = entity;
@@ -583,7 +580,21 @@ public class EntityTrackerEntry {
         }
     }
 
+    public void untrackQueuedPlayers() {
+        EntityPlayer player;
+        while ((player = untrackQueue.pollLast()) != null) {
+            this.trackedPlayers.remove(player);
+            player.d(this.tracker);
+        }
+    }
+
     public void clear(EntityPlayer entityplayer) {
+
+        if (PaperSpigotConfig.entityUseBypassPacketQueue) {
+            untrackQueue.addFirst(entityplayer);
+            return;
+        }
+
         org.spigotmc.AsyncCatcher.catchOp( "player tracker clear"); // Spigot
         if (this.trackedPlayers.contains(entityplayer)) {
             this.trackedPlayers.remove(entityplayer);

@@ -1,5 +1,7 @@
 package net.minecraft.server;
 
+import org.github.paperspigot.PaperSpigotConfig;
+
 public class PacketPlayInUseEntity extends Packet {
 
     private int a;
@@ -43,6 +45,11 @@ public class PacketPlayInUseEntity extends Packet {
 
     public EnumEntityUseAction c() {
         return this.action;
+    }
+
+    @Override
+    public boolean a() {
+        return PaperSpigotConfig.entityUseBypassPacketQueue;
     }
 
     public void handle(PacketListener packetlistener) {

@@ -1,15 +1,6 @@
 package net.minecraft.server;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 // PaperSpigot start
 import java.util.concurrent.ExecutorService;
@@ -33,6 +24,7 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.generator.ChunkGenerator;
 
 import net.minecraft.util.com.google.common.util.concurrent.ThreadFactoryBuilder;
+import org.github.paperspigot.PaperSpigotConfig;
 
 public abstract class World implements IBlockAccess {
 
@@ -1097,15 +1089,37 @@ public abstract class World implements IBlockAccess {
         return true;
     }
 
+    private final Deque<AsyncEntityEntry> entityQueueAdder = new LinkedList<>();
+
+    private final class AsyncEntityEntry {
+        private final Entity entity;
+        private final SpawnReason spawnReason;
+
+        public AsyncEntityEntry(Entity entity, SpawnReason spawnReason) {
+            this.entity = entity;
+            this.spawnReason = spawnReason;
+        }
+
+        public Entity getEntity() {
+            return entity;
+        }
+    }
+
     public boolean addEntity(Entity entity) {
         // CraftBukkit start - Used for entities other than creatures
         return this.addEntity(entity, SpawnReason.DEFAULT); // Set reason as DEFAULT
     }
 
     public boolean addEntity(Entity entity, SpawnReason spawnReason) { // Changed signature, added SpawnReason
-        org.spigotmc.AsyncCatcher.catchOp( "entity add"); // Spigot
+        if (!PaperSpigotConfig.entityUseBypassPacketQueue) org.spigotmc.AsyncCatcher.catchOp( "entity add"); // Spigot
         if (entity == null) return false;
         // CraftBukkit end
+
+        if (PaperSpigotConfig.entityUseBypassPacketQueue && Thread.currentThread() != MinecraftServer.getServer().primaryThread )
+        {
+            entityQueueAdder.add(new AsyncEntityEntry(entity, spawnReason));
+            return true;
+        }
 
         int i = MathHelper.floor(entity.locX / 16.0D);
         int j = MathHelper.floor(entity.locZ / 16.0D);
@@ -1433,8 +1447,15 @@ public abstract class World implements IBlockAccess {
     public void b(int i, int j, int k, Block block, int l, int i1) {}
 
     public void tickEntities() {
+
         this.methodProfiler.a("entities");
         this.methodProfiler.a("global");
+
+        // TODO: maybe find a better place
+        while (!entityQueueAdder.isEmpty()) {
+            AsyncEntityEntry entry = entityQueueAdder.pollLast();
+            addEntity(entry.entity, entry.spawnReason);
+        }
 
         int i;
         Entity entity;
