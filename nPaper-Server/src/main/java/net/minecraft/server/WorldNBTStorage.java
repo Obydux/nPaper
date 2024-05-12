@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.UUID;
 
 import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.github.paperspigot.PaperSpigotConfig;
 // CraftBukkit end
 
 public class WorldNBTStorage implements IDataManager, IPlayerFileData {
@@ -173,6 +174,7 @@ public class WorldNBTStorage implements IDataManager, IPlayerFileData {
     }
 
     public void save(EntityHuman entityhuman) {
+        if(!PaperSpigotConfig.savePlayerData) return; // Paper - Make player data saving configurable
         try {
             NBTTagCompound nbttagcompound = new NBTTagCompound();
 
@@ -192,8 +194,8 @@ public class WorldNBTStorage implements IDataManager, IPlayerFileData {
     }
 
     public NBTTagCompound load(EntityHuman entityhuman) {
+        if(!PaperSpigotConfig.savePlayerData) return null; // nPaper - don't try to load files if saving is disabled
         NBTTagCompound nbttagcompound = null;
-
         try {
             File file1 = new File(this.playerDir, entityhuman.getUniqueID().toString() + ".dat");
             // Spigot Start

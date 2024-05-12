@@ -1,0 +1,46 @@
+debug=false
+
+function help
+{
+    echo "./npaper run -> run test server"
+    echo "./npaper compile -> compile sources"
+    echo "./npaper debug -> compile and run"
+    echo ""
+    exit
+}
+
+function compile
+{
+    mvn clean package
+    CEC=$?
+    if [ $CEC -ne 0 ]; then
+        exit
+    fi
+
+    if [ debug -ne true ]; then
+        exit
+    fi
+}
+
+function run
+{
+    mkdir server
+    rm ./server/npaper.jar
+    cp nPaper-Server/target/npaper-1.7.10-R0.1-SNAPSHOT.jar ./server/npaper.jar
+    cd server
+    java -jar npaper.jar
+    cd ..
+    exit
+}
+
+function debug()
+{
+    debug=true
+    compile
+    run
+    exit
+}
+
+command="$1"
+${command}
+help

@@ -1100,32 +1100,31 @@ public abstract class PlayerList {
         this.sendPacketNearby((EntityHuman) null, d0, d1, d2, d3, i, packet, false);
     }
 
-    public void sendPacketNearby(final EntityHuman entityhuman, double d0, double d1, double d2, double d3, int i, Packet packet, boolean includingSelf) {    final boolean entityHumanNull = entityhuman == null;
-        if (entityhuman == null) {
-        	return;
-        }
+    public void sendPacketNearby(final EntityHuman entityhuman, double d0, double d1, double d2, double d3, int i, Packet packet, boolean includingSelf) {
+        final boolean entityHumanNull = entityhuman == null;
         final WorldServer world = this.server.getWorldServer(i);
-        for (double x = d0 - d3; x <= d0 + d3; x += 16.0D) {
-        	for (double z = d2 - d3; z <= d2 + d3; z += 16.0D) {
-        		Chunk chunk = world.getChunkAt((int)x >> 4, (int)z >> 4);
-        		if (chunk == null) continue;
-        		for (EntityPlayer entityplayer : chunk.playersInChunk) {
 
-		            // CraftBukkit start - Test if player receiving packet can see the source of the packet
-		            if (!entityHumanNull && entityhuman instanceof EntityPlayer && !entityplayer.getBukkitEntity().canSee(((EntityPlayer) entityhuman).getBukkitEntity())) continue;
-		            // CraftBukkit end
-		
-		            if ((includingSelf || entityplayer != entityhuman) && entityplayer.dimension == i) {
-		                double d4 = d0 - entityplayer.locX;
-		                double d5 = d1 - entityplayer.locY;
-		                double d6 = d2 - entityplayer.locZ;
-		
-		                if (d4 * d4 + d5 * d5 + d6 * d6 < d3 * d3) {
-		                    entityplayer.playerConnection.sendPacket(packet);
-		                }
-		            }
-        		}
-        	}
+        for (double x = d0 - d3; x <= d0 + d3; x += 16.0D) {
+            for (double z = d2 - d3; z <= d2 + d3; z += 16.0D) {
+                Chunk chunk = world.getChunkAt((int)x >> 4, (int)z >> 4);
+                if (chunk == null) continue;
+                for (EntityPlayer entityplayer : chunk.playersInChunk) {
+
+                    // CraftBukkit start - Test if player receiving packet can see the source of the packet
+                    if (!entityHumanNull && entityhuman instanceof EntityPlayer && !entityplayer.getBukkitEntity().canSee(((EntityPlayer) entityhuman).getBukkitEntity())) continue;
+                    // CraftBukkit end
+
+                    if ((includingSelf || entityplayer != entityhuman) && entityplayer.dimension == i) {
+                        double d4 = d0 - entityplayer.locX;
+                        double d5 = d1 - entityplayer.locY;
+                        double d6 = d2 - entityplayer.locZ;
+
+                        if (d4 * d4 + d5 * d5 + d6 * d6 < d3 * d3) {
+                            entityplayer.playerConnection.sendPacket(packet);
+                        }
+                    }
+                }
+            }
         }
     }
 

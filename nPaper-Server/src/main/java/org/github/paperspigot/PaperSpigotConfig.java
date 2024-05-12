@@ -267,4 +267,9 @@ public class PaperSpigotConfig
     private static void obfuscatePlayerHealth() {
     	obfuscatePlayerHealth = getBoolean("settings.obfuscate-player-health", obfuscatePlayerHealth);
     }
+
+    public static boolean savePlayerData = true;
+    private static void savePlayerData() {
+        savePlayerData = getBoolean("settings.save-player-data", savePlayerData);
+    }
 }
