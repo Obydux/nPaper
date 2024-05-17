@@ -12,7 +12,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -70,8 +69,8 @@ public class PlayerConnection implements PacketPlayInListener {
     private long i;
     private static Random j = new Random();
     private long k;
-    private volatile int chatThrottle; 
-    private static final AtomicIntegerFieldUpdater chatSpamField = AtomicIntegerFieldUpdater.newUpdater(PlayerConnection.class, "chatThrottle"); // CraftBukkit - multithreaded field
+    //private volatile int chatThrottle; 
+    //private static final AtomicIntegerFieldUpdater chatSpamField = AtomicIntegerFieldUpdater.newUpdater(PlayerConnection.class, "chatThrottle"); // CraftBukkit - multithreaded field
     private int x;
     private IntHashMap n = new IntHashMap();
     private double y;
@@ -131,7 +130,7 @@ public class PlayerConnection implements PacketPlayInListener {
         }
 
         // CraftBukkit start
-        for (int spam; (spam = this.chatThrottle) > 0 && !chatSpamField.compareAndSet(this, spam, spam - 1); ) ;
+        //for (int spam; (spam = this.chatThrottle) > 0 && !chatSpamField.compareAndSet(this, spam, spam - 1); ) ;
         /* Use thread-safe field access instead
         if (this.chatThrottle > 0) {
             --this.chatThrottle;
@@ -913,7 +912,7 @@ public class PlayerConnection implements PacketPlayInListener {
             }
 
             // Spigot - spam exclusions
-            boolean counted = true;
+            /*boolean counted = true;
             for ( String exclude : org.spigotmc.SpigotConfig.spamExclusions )
             {
                 if ( exclude != null && s.startsWith( exclude ) )
@@ -947,7 +946,7 @@ public class PlayerConnection implements PacketPlayInListener {
                     this.disconnect("disconnect.spam");
                 }
                 // CraftBukkit end
-            }
+            }*/
         }
     }
 
