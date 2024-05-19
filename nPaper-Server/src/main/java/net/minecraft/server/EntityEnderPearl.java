@@ -63,8 +63,10 @@ public class EntityEnderPearl extends EntityProjectile {
                     CraftPlayer player = entityplayer.getBukkitEntity();
 
                     Location location = PaperSpigotConfig.fixEnderPearlGlitch ? (movingobjectposition.entity == null ? this.lastValidLocation.clone() : getBukkitEntity().getLocation()) : getBukkitEntity().getLocation(); // snHose - antipearl glitch
-                    location.setPitch(player.getLocation().getPitch());
-                    location.setYaw(player.getLocation().getYaw());
+                    // Rinny start - fix enderpearl teleport behavior
+                    location.setPitch(entityplayer.pitch);
+                    location.setYaw(entityplayer.yaw);
+                    // Rinny end
 
                     PlayerTeleportEvent teleEvent = new PlayerTeleportEvent(player, player.getLocation(), location, PlayerTeleportEvent.TeleportCause.ENDER_PEARL);
                     Bukkit.getPluginManager().callEvent(teleEvent);
