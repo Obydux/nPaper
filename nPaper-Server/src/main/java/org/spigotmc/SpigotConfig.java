@@ -283,15 +283,6 @@ public class SpigotConfig
         System.out.println( "Server Ping Player Sample Count: " + playerSample );
     }
 
-    public static List<String> spamExclusions;
-    private static void spamExclusions()
-    {
-        spamExclusions = getList( "commands.spam-exclusions", Arrays.asList( new String[]
-        {
-                "/skill"
-        } ) );
-    }
-
     public static boolean silentCommandBlocks;
     private static void silentCommandBlocks()
     {
