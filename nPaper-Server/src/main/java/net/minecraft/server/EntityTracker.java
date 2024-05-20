@@ -31,13 +31,13 @@ public class EntityTracker {
                     entitytrackerentry.updatePlayer(entityplayer);
                 }
             }
-        } else if (entity instanceof EntityFishingHook) {
+        } else if (entity instanceof EntityFishingHook || entity instanceof EntityEnderPearl) { // Rinny - moved EntityEnderPearl here
             this.addEntity(entity, 64, 5, true);
         } else if (entity instanceof EntityArrow) {
             this.addEntity(entity, 64, 20, false);
         } else if (entity instanceof EntitySmallFireball || entity instanceof EntityFireball) {
             this.addEntity(entity, 64, 10, false);
-        } else if (entity instanceof EntitySnowball || entity instanceof EntityEnderPearl) {
+        } else if (entity instanceof EntitySnowball) { // Rinny - moved up EntityEnderPearl
             this.addEntity(entity, 64, 10, true);
         } else if (entity instanceof EntityEnderSignal) {
             this.addEntity(entity, 64, 4, true);
