@@ -6,6 +6,7 @@ public class PacketPlayOutEntityMetadata extends Packet {
 
     private int a;
     private List<WatchableObject> b;
+    private boolean foundHealth = false;
 
     public PacketPlayOutEntityMetadata() {}
     
@@ -24,6 +25,31 @@ public class PacketPlayOutEntityMetadata extends Packet {
         } else {
             this.b = datawatcher.b();
         }
+    }
+
+    public PacketPlayOutEntityMetadata obfuscateHealth() {
+        final Iterator<WatchableObject> iter = b.iterator();
+        if (this.foundHealth) {
+        	this.foundHealth = false;
+        }
+
+        while (iter.hasNext()) {
+            final WatchableObject watchable = iter.next();
+            if (watchable.a() == 6 && (float) watchable.b() > 0) {
+                iter.remove();
+                this.foundHealth = true;
+                break;
+            }
+        }
+
+        if (this.foundHealth) {
+            b.add(new WatchableObject(3, 6, 1.0F));
+        }
+        return this;
+    }
+    
+    public boolean didFindHealth() {
+        return this.foundHealth;
     }
 
     public void a(PacketDataSerializer packetdataserializer) {
