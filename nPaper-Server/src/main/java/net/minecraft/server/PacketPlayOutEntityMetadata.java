@@ -1,5 +1,6 @@
 package net.minecraft.server;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class PacketPlayOutEntityMetadata extends Packet {
@@ -50,6 +51,10 @@ public class PacketPlayOutEntityMetadata extends Packet {
     
     public boolean didFindHealth() {
         return this.foundHealth;
+    }
+
+    public List<WatchableObject> getMetadata() {
+        return this.b;
     }
 
     public void a(PacketDataSerializer packetdataserializer) {
