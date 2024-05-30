@@ -1,5 +1,6 @@
 package net.minecraft.server;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -263,36 +264,19 @@ public class EntityTrackerEntry {
         DataWatcher datawatcher = this.tracker.getDataWatcher();
 
         if (datawatcher.a()) {
-        	if (PaperSpigotConfig.obfuscatePlayerHealth && this.tracker instanceof EntityHuman) {
-        		final List<WatchableObject> changedMetadata = datawatcher.c(); // Clone the data watcher elements
-        		final Iterator<WatchableObject> iterator = changedMetadata.iterator();
-        		boolean found = false;
-        		// We iterate over every data watcher element
-        		while (iterator.hasNext()) {
-        			WatchableObject watchable = iterator.next();
-        			// If the index is 6 (player health) we can replace it with an obfuscated value. We have to make sure the health is also over 0 otherwise death animations won't show
-        			// https://wiki.vg/index.php?title=Entity_metadata&oldid=7415#Living_Entity_Base
-        			if (watchable.a() == 6 && (float) watchable.b() > 0) {
-        				iterator.remove();
-        				found = true;
-        				break; // Rinny - cut the loop
-        			}
-        		}
-        		// Put in the fake hp value
-        		if (found) {
-        			changedMetadata.add(new WatchableObject(3, 6, 1.0F));
-        		}
-        		// Create a new packet with the obfuscated player health
-        		final PacketPlayOutEntityMetadata modifiedPacket = new PacketPlayOutEntityMetadata(this.tracker.getId(), changedMetadata);
-        		// Broadcast the modified metadata packet to everyone and send the correct packet to the player
-        		this.broadcast(modifiedPacket);
-        		if (this.tracker instanceof EntityPlayer) {
-        			((EntityPlayer) this.tracker).playerConnection.sendPacket(new PacketPlayOutEntityMetadata(this.tracker.getId(), datawatcher, false));
-        		}
+        	final List<WatchableObject> changedMetadata = datawatcher.b();
+        	if (PaperSpigotConfig.obfuscatePlayerHealth && this.tracker.isAlive() && (this.tracker instanceof EntityPlayer)) {
+        		final PacketPlayOutEntityMetadata metadataPacket = new PacketPlayOutEntityMetadata(this.tracker.getId(), new ArrayList<WatchableObject>(changedMetadata)).obfuscateHealth();
+                if (!metadataPacket.didFindHealth() || 1 < metadataPacket.getMetadata().size()) {
+                	this.broadcast(metadataPacket);
+                }
         	} else {
-        		// SportPaper end
-        		this.broadcastIncludingSelf(new PacketPlayOutEntityMetadata(this.tracker.getId(), datawatcher, false));
+        		this.broadcast(new PacketPlayOutEntityMetadata(this.tracker.getId(), changedMetadata));
         	}
+        	
+        	if (this.tracker instanceof EntityPlayer) {
+                ((EntityPlayer) this.tracker).playerConnection.sendPacket(new PacketPlayOutEntityMetadata(this.tracker.getId(), changedMetadata));
+            }
         }
 
         if (this.tracker instanceof EntityLiving) {
