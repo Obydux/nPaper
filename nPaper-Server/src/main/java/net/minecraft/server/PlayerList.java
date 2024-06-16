@@ -583,6 +583,7 @@ public abstract class PlayerList {
         // entityplayer1.syncInventory();
         // CraftBukkit end
         entityplayer1.setHealth(entityplayer1.getHealth());
+        entityplayer.setSneaking(false); // Rinny - Fix MC-10657
 
         // CraftBukkit start
         // Don't fire on respawn
