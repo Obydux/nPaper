@@ -8,8 +8,7 @@ import net.minecraft.server.EntityItemFrame;
 import net.minecraft.server.EntityPainting;
 import net.minecraft.server.EntityPlayer;
 
-public class TrackingRange
-{
+public interface TrackingRange { // Rinny - class > interface
 
     /**
      * Gets the range an entity should be 'tracked' by players and visible in
@@ -19,33 +18,20 @@ public class TrackingRange
      * @param defaultRange Default range defined by Mojang
      * @return
      */
-    public static int getEntityTrackingRange(Entity entity, int defaultRange)
-    {
-        SpigotWorldConfig config = entity.world.spigotConfig;
-        if ( entity instanceof EntityPlayer )
-        {
+    default int getEntityTrackingRange(Entity entity, int defaultRange) { // Rinny - public static > default
+    	final SpigotWorldConfig config = entity.world.spigotConfig;
+    	if (entity instanceof EntityPlayer) {
             return config.playerTrackingRange;
-        }  else if ( entity.activationType == 1 )
-        {
-            return config.monsterTrackingRange;
-        } else if ( entity instanceof EntityGhast )
-        {
-            if ( config.monsterTrackingRange > config.monsterActivationRange )
-            {
-                return config.monsterTrackingRange;
-            } else
-            {
-                return config.monsterActivationRange;
-            }
-        } else if ( entity.activationType == 2 )
-        {
-            return config.animalTrackingRange;
-        } else if ( entity instanceof EntityItemFrame || entity instanceof EntityPainting || entity instanceof EntityItem || entity instanceof EntityExperienceOrb )
-        {
-            return config.miscTrackingRange;
-        } else 
-        {
-            return config.otherTrackingRange;
         }
+        if (entity.activationType == 1) {
+            return config.monsterTrackingRange;
+        }
+        if (entity instanceof EntityGhast) {
+            return (config.monsterTrackingRange > config.monsterActivationRange ? config.monsterTrackingRange : config.monsterActivationRange);
+        }
+        if (entity.activationType == 2) {
+            return config.animalTrackingRange;
+        }
+        return (entity instanceof EntityItemFrame || entity instanceof EntityPainting || entity instanceof EntityItem || entity instanceof EntityExperienceOrb ? config.miscTrackingRange : config.otherTrackingRange);
     }
 }

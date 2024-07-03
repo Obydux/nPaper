@@ -4,8 +4,9 @@ import java.util.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.spigotmc.TrackingRange;
 
-public class EntityTracker {
+public class EntityTracker implements TrackingRange {
 
     private static final Logger a = LogManager.getLogger();
     private final WorldServer world;
@@ -85,7 +86,7 @@ public class EntityTracker {
 
     public void addEntity(Entity entity, int i, int j, boolean flag) {
         org.spigotmc.AsyncCatcher.catchOp( "entity track"); // Spigot
-        i = org.spigotmc.TrackingRange.getEntityTrackingRange(entity, i); // Spigot
+        i = this.getEntityTrackingRange(entity, i); // Spigot > Rinny
         if (i > this.e) {
             i = this.e;
         }
