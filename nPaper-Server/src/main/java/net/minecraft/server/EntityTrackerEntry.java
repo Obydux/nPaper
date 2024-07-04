@@ -117,10 +117,17 @@ public class EntityTrackerEntry {
                 int k1 = j - this.yLoc;
                 int l1 = k - this.zLoc;
                 Packet packet = null;
-                boolean flag = Math.abs(j1) >= 4 || Math.abs(k1) >= 4 || Math.abs(l1) >= 4 || this.m % 60 == 0;
-                boolean flag1 = Math.abs(l - this.yRot) >= 4 || Math.abs(i1 - this.xRot) >= 4;
+                // Rinny moved-down
+                //boolean flag = Math.abs(j1) >= 4 || Math.abs(k1) >= 4 || Math.abs(l1) >= 4 || this.m % 60 == 0;
+                //boolean flag1 = Math.abs(l - this.yRot) >= 4 || Math.abs(i1 - this.xRot) >= 4;
+                // Rinny stop
 
                 if (this.m > 0 || this.tracker instanceof EntityArrow) { // PaperSpigot - Move up
+                    // Rinny start -- moved
+                    boolean flag = Math.abs(j1) >= 4 || Math.abs(k1) >= 4 || Math.abs(l1) >= 4 || this.m % 60 == 0;
+                    boolean flag1 = Math.abs(l - this.yRot) >= 4 || Math.abs(i1 - this.xRot) >= 4;
+                    // Rinny end
+
                     // CraftBukkit start - Code moved from below
                     if (flag) {
                         this.xLoc = i;
