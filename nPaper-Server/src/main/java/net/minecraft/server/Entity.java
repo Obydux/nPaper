@@ -36,7 +36,6 @@ import com.sathonay.npaper.utils.LightRandom;
 public abstract class Entity {
 
     // CraftBukkit start
-    private static final int CURRENT_LEVEL = 2;
     public static final LightRandom SHARED_RANDOM = new LightRandom(); // nPaper (Random -> LightRandom)
     static boolean isLevelAtLeast(NBTTagCompound tag, int level) {
         return tag.hasKey("Bukkit.updateLevel") && tag.getInt("Bukkit.updateLevel") >= level;
@@ -1135,7 +1134,6 @@ public abstract class Entity {
             // CraftBukkit start
             nbttagcompound.setLong("WorldUUIDLeast", this.world.getDataManager().getUUID().getLeastSignificantBits());
             nbttagcompound.setLong("WorldUUIDMost", this.world.getDataManager().getUUID().getMostSignificantBits());
-            nbttagcompound.setInt("Bukkit.updateLevel", CURRENT_LEVEL);
             nbttagcompound.setInt("Spigot.ticksLived", this.ticksLived);
             // CraftBukkit end
             this.b(nbttagcompound);

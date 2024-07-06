@@ -240,6 +240,20 @@ public abstract class EntityInsentient extends EntityLiving {
         }
     }
 
+    @Override
+    public void e(NBTTagCompound nbttagcompound) {
+    	super.e(nbttagcompound);
+    	try {
+    		nbttagcompound.setInt("Bukkit.updateLevel", 2); // Rinny - moved from Entity
+    	} catch (Throwable throwable) {
+            CrashReport crashreport = CrashReport.a(throwable, "Saving entity NBT");
+            CrashReportSystemDetails crashreportsystemdetails = crashreport.a("Entity being saved");
+
+            this.a(crashreportsystemdetails);
+            throw new ReportedException(crashreport);
+        }
+    }
+
     public void a(NBTTagCompound nbttagcompound) {
         super.a(nbttagcompound);
 
