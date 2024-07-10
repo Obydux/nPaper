@@ -1,7 +1,8 @@
 package net.minecraft.server;
 
 public class OldChunkLoader {
-
+    // KEEP THIS CLEARED
+    /*
     public static OldChunk a(NBTTagCompound nbttagcompound) {
         int i = nbttagcompound.getInt("xPos");
         int j = nbttagcompound.getInt("zPos");
@@ -116,5 +117,5 @@ public class OldChunkLoader {
         if (oldchunk.j != null) {
             nbttagcompound.set("TileTicks", oldchunk.j);
         }
-    }
+    }*/
 }
