@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.Validate;
 
-import com.google.common.collect.Maps;
+import com.google.common.collect.ImmutableMap;
 
 /**
  * All supported color values for chat
@@ -111,8 +111,8 @@ public enum ChatColor {
     private final char code;
     private final boolean isFormat;
     private final String toString;
-    private final static Map<Integer, ChatColor> BY_ID = Maps.newHashMap();
-    private final static Map<Character, ChatColor> BY_CHAR = Maps.newHashMap();
+    private final static Map<Integer, ChatColor> BY_ID;
+    private final static Map<Character, ChatColor> BY_CHAR;
 
     private ChatColor(char code, int intCode) {
         this(code, intCode, false);
@@ -245,9 +245,15 @@ public enum ChatColor {
     }
 
     static {
+        ImmutableMap.Builder<Integer, ChatColor> byIdBuilder = ImmutableMap.builder();
+        ImmutableMap.Builder<Character, ChatColor> byCharBuilder = ImmutableMap.builder();
+
         for (ChatColor color : values()) {
-            BY_ID.put(color.intCode, color);
-            BY_CHAR.put(color.code, color);
+            byIdBuilder.put(color.intCode, color);
+            byCharBuilder.put(color.code, color);
         }
+
+        BY_ID = byIdBuilder.build();
+        BY_CHAR = byCharBuilder.build();
     }
 }
