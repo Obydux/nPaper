@@ -1716,14 +1716,16 @@ public abstract class EntityLiving extends Entity {
 
     public void receive(Entity entity, int i) {
         if (!entity.dead && !this.world.isStatic) {
-            EntityTracker entitytracker = ((WorldServer) this.world).getTracker();
+            final EntityTracker entitytracker = ((WorldServer) this.world).getTracker();
 
             if (entity instanceof EntityItem) {
                 entitytracker.a(entity, (Packet) (new PacketPlayOutCollect(entity.getId(), this.getId())));
+                return; // Rinny - Don't execute code when not needed
             }
 
             if (entity instanceof EntityArrow) {
                 entitytracker.a(entity, (Packet) (new PacketPlayOutCollect(entity.getId(), this.getId())));
+                return; // Rinny - Don't execute code when not needed
             }
 
             if (entity instanceof EntityExperienceOrb) {
