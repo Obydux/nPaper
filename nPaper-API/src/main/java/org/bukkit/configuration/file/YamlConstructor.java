@@ -7,12 +7,14 @@ import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.LoaderOptions;
 
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 
 public class YamlConstructor extends SafeConstructor {
 
     public YamlConstructor() {
+        super(new LoaderOptions());
         this.yamlConstructors.put(Tag.MAP, new ConstructCustomObject());
     }
 
