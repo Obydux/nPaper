@@ -451,36 +451,30 @@ public abstract class MinecraftServer implements ICommandListener, Runnable, IMo
 
     public static class RollingAverage {
     	private final int size;
-        private double total;
-        private int index = 0;
         private final double[] samples;
         private final long[] times;
+        private double total;
+        private int index;
 
         RollingAverage(int size) {
             this.size = size;
-            this.total = TPS * SEC_IN_NANO * size;
             this.samples = new double[size];
             this.times = new long[size];
-            for (int i = 0; i < size; i++) {
-                this.samples[i] = TPS;
-                this.times[i] = SEC_IN_NANO;
-            }
+            Arrays.fill(this.samples, TPS);
+            Arrays.fill(this.times, SEC_IN_NANO);
+            this.total = TPS * SEC_IN_NANO * size;
         }
 
         public void add(double x, long t) {
-            index = (index + 1) % size;
             total -= samples[index] * times[index];
             samples[index] = x;
             times[index] = t;
             total += x * t;
+            index = (index + 1) % size;
         }
 
         public double getAverage() {
-            double avg = total;
-            for (int i = 0; i < size; i++) {
-                avg += samples[i] * (SEC_IN_NANO - times[i]);
-            }
-            return avg / (SEC_IN_NANO * size);
+            return total / (SEC_IN_NANO * size);
         }
     }
     // PaperSpigot End
@@ -491,15 +485,16 @@ public abstract class MinecraftServer implements ICommandListener, Runnable, IMo
                 //long i = ar();
                 //long j = 0L;
 
-                this.q.setMOTD(new ChatComponentText(this.motd));
-                this.q.setServerInfo(new ServerPingServerData("1.7.10", 5));
-                this.a(this.q);
+                //this.q.setMOTD(new ChatComponentText(this.motd)); // MOTD is initiated by Bukkit we don't need it here
+                this.q.setServerInfo(new ServerPingServerData("1.7.10", 5)); // this is initiated by Bukkit too will clear it later
+                this.a(this.q); // this is initiated by Bukkit too we will only use this one since I've never saw any plugin use ServerListPingEvent::setServerIcon
 
                 // Spigot start
                 // PaperSpigot start - Further improve tick loop
                 Arrays.fill( recentTps, 20 );
                 //long lastTick = System.nanoTime(), catchupTime = 0, curTime, wait, tickSection = lastTick;
-                long start = System.nanoTime(), lastTick = start - TICK_TIME, catchupTime = 0, curTime, wait, tickSection = start;
+                final long start = System.nanoTime();
+                long lastTick = start - TICK_TIME, catchupTime = 0, curTime, wait, tickSection = start;
                 // PaperSpigot end
                 START_TIME = System.currentTimeMillis();
                 while (this.isRunning) {
