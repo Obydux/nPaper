@@ -35,33 +35,9 @@ public class PacketPlayOutSpawnEntity extends Packet {
             double d2 = entity.motZ;
             double d3 = 3.9D;
 
-            if (d0 < -d3) {
-                d0 = -d3;
-            }
-
-            if (d1 < -d3) {
-                d1 = -d3;
-            }
-
-            if (d2 < -d3) {
-                d2 = -d3;
-            }
-
-            if (d0 > d3) {
-                d0 = d3;
-            }
-
-            if (d1 > d3) {
-                d1 = d3;
-            }
-
-            if (d2 > d3) {
-                d2 = d3;
-            }
-
-            this.e = (int) (d0 * 8000.0D);
-            this.f = (int) (d1 * 8000.0D);
-            this.g = (int) (d2 * 8000.0D);
+            this.e = (int) (MathHelper.a(d0, -d3, d3) * 8000.0D);
+            this.f = (int) (MathHelper.a(d1, -d3, d3) * 8000.0D);
+            this.g = (int) (MathHelper.a(d2, -d3, d3) * 8000.0D);
         }
     }
 
