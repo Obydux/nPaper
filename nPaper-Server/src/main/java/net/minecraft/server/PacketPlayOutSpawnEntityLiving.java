@@ -34,9 +34,9 @@ public class PacketPlayOutSpawnEntityLiving extends Packet {
         double d2 = entityliving.motZ;
         double d3 = 3.9D;
 
-        this.e = (int) (MathHelper.a(d0, -d3, d3) * 8000.0D);
-        this.f = (int) (MathHelper.a(d1, -d3, d3) * 8000.0D);
-        this.g = (int) (MathHelper.a(d2, -d3, d3) * 8000.0D);
+        this.f = (int) (MathHelper.a(d0, -d3, d3) * 8000.0D);
+        this.g = (int) (MathHelper.a(d1, -d3, d3) * 8000.0D);
+        this.h = (int) (MathHelper.a(d2, -d3, d3) * 8000.0D);
         this.l = entityliving.getDataWatcher();
     }
 
