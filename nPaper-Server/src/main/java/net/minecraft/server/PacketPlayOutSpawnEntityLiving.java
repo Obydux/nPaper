@@ -29,38 +29,14 @@ public class PacketPlayOutSpawnEntityLiving extends Packet {
         this.i = (byte) ((int) (entityliving.yaw * 256.0F / 360.0F));
         this.j = (byte) ((int) (entityliving.pitch * 256.0F / 360.0F));
         this.k = (byte) ((int) (entityliving.aO * 256.0F / 360.0F));
-        double d0 = 3.9D;
-        double d1 = entityliving.motX;
-        double d2 = entityliving.motY;
-        double d3 = entityliving.motZ;
+        double d0 = entityliving.motX;
+        double d1 = entityliving.motY;
+        double d2 = entityliving.motZ;
+        double d3 = 3.9D;
 
-        if (d1 < -d0) {
-            d1 = -d0;
-        }
-
-        if (d2 < -d0) {
-            d2 = -d0;
-        }
-
-        if (d3 < -d0) {
-            d3 = -d0;
-        }
-
-        if (d1 > d0) {
-            d1 = d0;
-        }
-
-        if (d2 > d0) {
-            d2 = d0;
-        }
-
-        if (d3 > d0) {
-            d3 = d0;
-        }
-
-        this.f = (int) (d1 * 8000.0D);
-        this.g = (int) (d2 * 8000.0D);
-        this.h = (int) (d3 * 8000.0D);
+        this.e = (int) (MathHelper.a(d0, -d3, d3) * 8000.0D);
+        this.f = (int) (MathHelper.a(d1, -d3, d3) * 8000.0D);
+        this.g = (int) (MathHelper.a(d2, -d3, d3) * 8000.0D);
         this.l = entityliving.getDataWatcher();
     }
 
