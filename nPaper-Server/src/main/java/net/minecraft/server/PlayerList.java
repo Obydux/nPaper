@@ -89,7 +89,7 @@ public abstract class PlayerList {
     private int q;
     private EnumGamemode r;
     private boolean s;
-    private int t;
+    private int tabIndex;
 
     // CraftBukkit start
     private CraftServer cserver;
@@ -832,53 +832,35 @@ public abstract class PlayerList {
         // CraftBukkit end
     }
 
-    private int currentPing = 0;
-
     public void tick() {
-        if (++this.t > 600) {
-            this.t = 0;
-        }
-
-        /* CraftBukkit start - Remove updating of lag to players -- it spams way to much on big servers.
-        if (this.t < this.players.size()) {
-            EntityPlayer entityplayer = (EntityPlayer) this.players.get(this.p);
-
-            this.sendAll(new PacketPlayOutPlayerInfo(entityplayer.getName(), true, entityplayer.ping));
-        }
-        // CraftBukkit end */
-        // Spigot start
-        try
-        {
-            if ( !players.isEmpty() )
-            {
-                currentPing = ( currentPing + 1 ) % this.players.size();
-                EntityPlayer player = (EntityPlayer) this.players.get( currentPing );
-                if (player.lastPing == -1 || pingToBar(player.lastPing) != pingToBar(player.ping))
-                {
-                    Packet packet = new PacketPlayOutPlayerInfo(player, PacketPlayOutPlayerInfo.PlayerInfo.UPDATE_LATENCY); // Spigot - protocol patch
-                    for ( EntityPlayer splayer : (List<EntityPlayer>) this.players )
-                    {
-                        if ( splayer.getBukkitEntity().canSee( player.getBukkitEntity() ) )
-                        {
-                            splayer.playerConnection.sendPacket(packet);
-                        }
-                    }
-                    player.lastPing = player.ping;
+    	// Rinny start
+    	if (players.isEmpty()) {
+    		return;
+    	}
+    	final byte size = (byte) Math.min(this.players.size(), 60);
+    	this.tabIndex = (this.tabIndex + 1) % size;
+    	
+        final EntityPlayer player = this.players.get(this.tabIndex);
+        
+        if (player.lastPing == -1 || pingToBar(player.ping) != pingToBar(player.lastPing)) {
+        	final Packet packet = new PacketPlayOutPlayerInfo(player, PlayerInfo.UPDATE_LATENCY);
+            for (EntityPlayer splayer : this.players) {
+                if (splayer.getBukkitEntity().canSee(player.getBukkitEntity())) {
+                	splayer.playerConnection.sendPacket(packet);
                 }
-            }
-        } catch (Exception e) {
-            // Better safe than sorry :)
+            } 
+            player.lastPing = player.ping;
         }
-        // Spigot end
+        // Rinny end
     }
-
+    
     private int pingToBar(int ping) {
-        if (ping < 0) return 5;
-        else if (ping < 150) return 0;
-        else if (ping < 300) return 1;
-        else if (ping < 600) return 2;
-        else if (ping < 1000) return 3;
-        else return 4;
+    	if (ping <= 0) return 5;
+    	if (ping < 150) return 0;
+    	if (ping < 300) return 1;
+    	if (ping < 600) return 2;
+    	if (ping < 1000) return 3;
+    	return 4;
     }
 
     public void sendAll(Packet packet) {
