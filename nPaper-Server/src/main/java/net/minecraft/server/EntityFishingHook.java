@@ -159,7 +159,7 @@ public class EntityFishingHook extends Entity {
 
             Entity entity = null;
             List<Entity> list = this.world.getEntities(this, this.boundingBox.a(this.motX, this.motY, this.motZ).grow(1.0D, 1.0D, 1.0D));
-            double d4 = 0.0D;
+            double d4 = Double.MAX_VALUE;
 
             double d5;
 
@@ -175,7 +175,7 @@ public class EntityFishingHook extends Entity {
 
                     if (movingobjectposition1 != null) {
                         d5 = vec3d.distanceSquared(movingobjectposition1.pos); // CraftBukkit - distance efficiency
-                        if (d5 < d4 || d4 == 0.0D) {
+                        if (d5 < d4) {
                             entity = entity1;
                             d4 = d5;
                         }

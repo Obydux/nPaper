@@ -127,7 +127,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
         if (!this.world.isStatic) {
             Entity entity = null;
             List<Entity> list = this.world.getEntities(this, this.boundingBox.a(this.motX, this.motY, this.motZ).grow(1.0D, 1.0D, 1.0D));
-            double d0 = 0.0D;
+            double d0 = Double.MAX_VALUE;
             EntityLiving entityliving = this.getShooter();
 
             Iterator<Entity> iterator = list.iterator();
@@ -143,7 +143,7 @@ public abstract class EntityProjectile extends Entity implements IProjectile {
                     if (movingobjectposition1 != null) {
                         double d1 = vec3d.distanceSquared(movingobjectposition1.pos); // CraftBukkit - distance efficiency
 
-                        if (d1 < d0 || d0 == 0.0D) {
+                        if (d1 < d0) {
                             entity = entity1;
                             d0 = d1;
                         }
