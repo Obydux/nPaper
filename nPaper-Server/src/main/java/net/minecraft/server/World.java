@@ -872,6 +872,9 @@ public abstract class World implements IBlockAccess {
     public MovingObjectPosition a(Vec3D vec3d, Vec3D vec3d1) {
         return this.rayTrace(vec3d, vec3d1, false, false, false);
     }
+    public MovingObjectPosition rayTrace(Vec3D vec3d, Vec3D vec3d1) {
+        return a(vec3d, vec3d1);
+    }
 
     public MovingObjectPosition rayTrace(Vec3D vec3d, Vec3D vec3d1, boolean flag) {
         return this.rayTrace(vec3d, vec3d1, flag, false, false);
