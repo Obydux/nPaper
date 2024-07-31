@@ -1128,6 +1128,21 @@ public class EntityPlayer extends EntityHuman implements ICrafting {
         }
     }
 
+    // Rinny - fix out of sight bug https://user-images.githubusercontent.com/127549897/224417820-bcf20d93-cb31-447e-9c55-5b0e513fb4b8.mp4
+    @Override
+    public boolean hasLineOfSight(Entity entity) {
+    	final Vec3D vec = new Vec3D(this.locX, this.locY + (double) this.getHeadHeight(), this.locZ);
+    	final double entityHeadHeight = entity.getHeadHeight();
+        
+        for (int i = 1; i <= 3; i++) {
+            double targetY = entity.locY + (entityHeadHeight / 3) * i;
+            if (this.world.rayTrace(vec, new Vec3D(entity.locX, targetY, entity.locZ)) == null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void resetPlayerWeather() {
         this.weather = null;
         this.setPlayerWeather(this.world.getWorldData().hasStorm() ? WeatherType.DOWNFALL : WeatherType.CLEAR, false);
