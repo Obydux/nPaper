@@ -71,11 +71,11 @@ public abstract class EntityMinecartAbstract extends Entity {
     }
 
     protected void c() {
-        this.datawatcher.a(17, new Integer(0));
-        this.datawatcher.a(18, new Integer(1));
-        this.datawatcher.a(19, new Float(0.0F));
+        this.datawatcher.a(17, 0);
+        this.datawatcher.a(18, 1);
+        this.datawatcher.a(19, 0.0F);
         this.datawatcher.a(20, new org.spigotmc.ProtocolData.DualInt(0, 0)); // Spigot - protocol patch
-        this.datawatcher.a(21, new Integer(6));
+        this.datawatcher.a(21, 6);
         this.datawatcher.a(22, Byte.valueOf((byte) 0));
     }
 
