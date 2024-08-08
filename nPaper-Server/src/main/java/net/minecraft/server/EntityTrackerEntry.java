@@ -476,7 +476,6 @@ public class EntityTrackerEntry {
     static {
     	packetCreators.put(EntityItem.class, entity -> new PacketPlayOutSpawnEntity(entity, 2, 1));
         packetCreators.put(EntityPlayer.class, entity -> new PacketPlayOutNamedEntitySpawn((EntityHuman) entity));
-        packetCreators.put(EntityMinecartAbstract.class, entity -> new PacketPlayOutSpawnEntity(entity, 10, ((EntityMinecartAbstract) entity).m()));
         packetCreators.put(EntityBoat.class, entity -> new PacketPlayOutSpawnEntity(entity, 1));
         packetCreators.put(EntityFishingHook.class, entity -> {
             final EntityHuman owner = ((EntityFishingHook) entity).owner;
@@ -533,6 +532,10 @@ public class EntityTrackerEntry {
         return packet;
     }
 
+    private Packet createMinecartPacket(EntityMinecartAbstract entityminecartabstract) {
+        return new PacketPlayOutSpawnEntity(this.tracker, 10, entityminecartabstract.m());
+    }
+
     private Packet c() {
         if (this.tracker.dead) {
             // CraftBukkit start - Remove useless error spam, just return
@@ -544,6 +547,10 @@ public class EntityTrackerEntry {
         if (this.tracker instanceof IAnimal || this.tracker instanceof EntityEnderDragon) {
             this.i = MathHelper.d(this.tracker.getHeadRotation() * 256.0F / 360.0F);
             return new PacketPlayOutSpawnEntityLiving((EntityLiving) this.tracker);
+        }
+
+        if (this.tracker instanceof EntityMinecartAbstract) {
+        	return this.createMinecartPacket((EntityMinecartAbstract) this.tracker);
         }
 
         if (this.tracker instanceof EntityFireball) {
